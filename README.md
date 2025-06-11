@@ -4,16 +4,21 @@ This repository contains the dataset and evaluation script for **CapRetrieval**,
 
 ### Dataset
 
-CapRetrieval is in Chinese to evaluate the fine-grained embedding matching for retrieval, where the candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
-Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
+CapRetrieval evaluates the fine-grained embedding matching (dense passage retrieval) in Chinese, tailored towards a practical image search scenario:
+- The candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
+- Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
+- Evaluation results call for attention on embedding training strategies with different **granularity**. 
 
-CapRetrieval follows the same retrieval format as in MTEB, with the relevance label $[0,1,2]$ for each pair. Note that unlike prior datasets, we annotate full labels for each query-passage pair towards more accurate evaluation, minimizing false negatives.
+##### Format
 
-Data will be uploaded to Huggingface soon.
+CapRetrieval follows the same retrieval task format as in MTEB, with relevance labels in $[0,1,2]$ for each pair.
+Note that unlike prior datasets, we annotate full labels for each query-passage pair (1.3 million pairs), minimizing false negatives for more accurate evaluation.
+
+A small amount of queries do not have any relevant captions; they are excluded in computation of retrieval metrics (e.g. nDCG), but can be useful for other analysis, e.g. in classification setting.
 
 ### Evaluation Script
 
-[run.py](run.py) is a general script to evaluate embeddings of various encoders on different datasets.
+[run.py](run.py) is a general script to evaluate embedding retrieval of various encoders on different datasets.
 
 Results and embeddings will be saved under a new `evaluation` directory.
 
@@ -88,31 +93,31 @@ Saved report to evaluation/report.CapRetrieval.bge-base-zh-v1.5.top10.json
 
 Evaluate BM25 (for now only support language zh):
 
-`python run.py --dataset CapRetrieval --topk 10 --mode bm25 --lang zh`
+- `python run.py --dataset CapRetrieval --topk 10 --mode bm25 --lang zh`
 
 Evaluate BGE encoders using CLS pooling (default pooling):
 
-`python run.py --dataset CapRetrieval --topk 10 --model BAAI/bge-base-zh-v1.5`
+- `python run.py --dataset CapRetrieval --topk 10 --model BAAI/bge-base-zh-v1.5`
 
 Evaluate GTE multilingual model using CLS pooling:
 
-`python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-multilingual-base`
+- `python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-multilingual-base`
 
 Evaluate Conan-v1 encoder using default SentenceTransformers setup:
 
-`python run.py --dataset CapRetrieval --topk 10 --model TencentBAC/Conan-embedding-v1 --pooling use_sentence_transformer`
+- `python run.py --dataset CapRetrieval --topk 10 --model TencentBAC/Conan-embedding-v1 --pooling use_sentence_transformer`
 
 Evaluate E5 encoders using mean pooling, with suggested prompt templates:
 
-`python run.py --dataset CapRetrieval --topk 10 --model intfloat/multilingual-e5-base --pooling mean --max_len 512 --query_template "query: {text}" --candidate_template "passage: {text}"`
+- `python run.py --dataset CapRetrieval --topk 10 --model intfloat/multilingual-e5-base --pooling mean --max_len 512 --query_template "query: {text}" --candidate_template "passage: {text}"`
 
 Evaluate GTE-Qwen encoders using last token pooling, with according prompt templates:
     
-`python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-Qwen2-7B-instruct --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
+- `python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-Qwen2-7B-instruct --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
 
 Evaluate Qwen3 embedding models using last token pooling, with according prompt templates:
 
-`python run.py --dataset CapRetrieval --topk 10 --model Qwen/Qwen3-Embedding-8B --padding_side left --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
+- `python run.py --dataset CapRetrieval --topk 10 --model Qwen/Qwen3-Embedding-8B --padding_side left --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
 
 
 ## Evaluation Scores
