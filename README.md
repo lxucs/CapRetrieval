@@ -34,6 +34,8 @@ Install `pytorch` according to your local environment, then `pip install -r requ
 
 See options by `python run.py --help`
 
+The script uses the most appropriate device by default; you can also set `device_map` explicitly.
+
 <details>
   <summary>Current Options</summary>
 

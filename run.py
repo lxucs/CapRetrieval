@@ -363,7 +363,7 @@ class Evaluator:
 
         # For convenience
         for inst in results:
-            for target in (inst['positives'] + inst['negatives']):
+            for target in (inst['positives'] + inst.get('negatives', [])):
                 if 'text' not in target:
                     target['text'] = self.searcher.cid2text[target['id']]
 
@@ -443,7 +443,7 @@ class Evaluator:
                                      f'pair_recall': pair_recall}
 
             result_ids, gold_ids = set(result_ids), set(gold_ids)
-            for target in (inst['positives'] + inst['negatives']):
+            for target in (inst['positives'] + inst.get('negatives', [])):
                 target[f'recalled'] = target['id'] in result_ids
             for r in inst['query_results']:
                 r['is_positive'] = r['id'] in gold_ids
