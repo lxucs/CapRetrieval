@@ -2,25 +2,25 @@
 
 This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the paper [Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592).
 
+The dataset is also available on [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval).
+
 ### Dataset
 
-CapRetrieval evaluates the fine-grained embedding matching (dense passage retrieval) in Chinese, tailored towards a practical image search scenario:
+CapRetrieval evaluates the fine-grained embedding matching, tailored towards a practical image search scenario in Chinese via dense passage retrieval:
 - Candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
 - Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
 - Evaluation results call for attention on embedding training strategies with different **granularity**. 
 
-The dataset is also available on [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval).
+#### Format
 
-##### Format
-
-CapRetrieval follows the same retrieval task format as in MTEB, with relevance labels in $[0,1,2]$ for each pair.
+CapRetrieval follows the same retrieval task format as in [MTEB](https://huggingface.co/spaces/mteb/leaderboard), with relevance labels in $[0,1,2]$ for each pair.
 Note that unlike prior datasets, we annotate full labels for each query-passage pair (1.3 million pairs), minimizing false negatives for more accurate evaluation.
 
 A small amount of queries do not have any relevant captions; they are excluded in computation of retrieval metrics (e.g. nDCG), but can be useful for other analysis, e.g. in classification setting.
 
 ### Evaluation Script
 
-[run.py](run.py) is a general script to evaluate embedding retrieval of various encoders on different datasets.
+[run.py](run.py) is a general script to evaluate embedding retrieval of various encoders.
 
 Results and embeddings will be saved under a new `evaluation` directory.
 
@@ -34,7 +34,7 @@ Install `pytorch` according to your local environment, then `pip install -r requ
 
 See options by `python run.py --help`
 
-The script uses the most appropriate device by default; you can also set `device_map` explicitly.
+The script by default automatically uses the most appropriate device; you can also set `device_map` explicitly. Embeddings will be cached and re-used.
 
 <details>
   <summary>Current Options</summary>
@@ -129,6 +129,7 @@ Evaluate Qwen3 embedding models using last token pooling, with according prompt 
 | Type     | Model                   | nDCG@10   |
 |----------|-------------------------|-----------|
 | **BM25** | Basic BM25              | 66.54     |
+|          |                         |           |
 | **0.1B** | bge-base-zh-v1.5        | 78.86     |
 |          | gte-multilingual-base   | 79.67     |
 |          | multilingual-e5-base    | 76.33     |
