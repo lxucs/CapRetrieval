@@ -5,9 +5,11 @@ This repository contains the dataset and evaluation script for **CapRetrieval**,
 ### Dataset
 
 CapRetrieval evaluates the fine-grained embedding matching (dense passage retrieval) in Chinese, tailored towards a practical image search scenario:
-- The candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
+- Candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
 - Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
 - Evaluation results call for attention on embedding training strategies with different **granularity**. 
+
+The dataset is also available on [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval).
 
 ##### Format
 
