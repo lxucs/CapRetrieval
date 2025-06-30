@@ -5,3 +5,4 @@ faiss-cpu==1.9.0
 rank-bm25
 jieba
 tqdm
+nltk

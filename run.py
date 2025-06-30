@@ -12,6 +12,7 @@ from tqdm import tqdm, trange
 import torch
 import logging
 import jieba
+import nltk
 from transformers import AutoTokenizer, AutoModel
 from sentence_transformers import SentenceTransformer
 from metric import (
@@ -218,8 +219,16 @@ class Searcher:
         from rank_bm25 import BM25Okapi
         overwrite = True
         if overwrite or not exists(self.bm25_idx_path):
-            assert self.dataset_lang == 'zh', 'Current BM25 setup is only for language: zh'
-            corpus = [jieba.lcut_for_search(inst['text']) for inst in self.candidates]  # Optional: use stopwords
+            # Optional: remove stopwords
+            if self.dataset_lang == 'en':
+                nltk.download('punkt_tab')
+                nltk.download('stopwords')
+                stemmer = nltk.stem.PorterStemmer()
+                corpus = [[stemmer.stem(term) for term in nltk.tokenize.word_tokenize(inst['text'])] for inst in self.candidates]
+            elif self.dataset_lang == 'zh':
+                corpus = [jieba.lcut_for_search(inst['text']) for inst in self.candidates]
+            else:
+                raise NotImplementedError(self.dataset_lang)
             index = BM25Okapi(corpus)
             io_util.write(self.bm25_idx_path, index)
         else:
@@ -271,7 +280,10 @@ class Searcher:
         assert text, 'Empty search'
         threshold = threshold or 1e-3
 
-        if self.dataset_lang == 'zh':
+        if self.dataset_lang == 'en':
+            stemmer = nltk.stem.PorterStemmer()
+            query = [stemmer.stem(term) for term in nltk.tokenize.word_tokenize(text)]
+        elif self.dataset_lang == 'zh':
             query = jieba.lcut(text)
         else:
             raise NotImplementedError(self.dataset_lang)
@@ -516,7 +528,7 @@ def main():
         print(f'Evaluate {len(results)} results directly from {args.result_path}\n')
         Evaluator.get_metrics(results, query_threshold=args.threshold, topk=args.topk)
     else:
-        assert args.dataset and args.model
+        assert args.dataset
         evaluator = Evaluator('evaluation', args.dataset, args.lang, args.mode,
                               args.model, args.device_map, args.max_len, args.pooling, not args.disable_normalization,
                               args.query_template, args.candidate_template, args.padding_side,

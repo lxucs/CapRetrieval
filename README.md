@@ -9,7 +9,9 @@ The dataset is also available on [Huggingface](https://huggingface.co/datasets/l
 CapRetrieval evaluates the fine-grained embedding matching, tailored towards a practical image search scenario in Chinese via dense passage retrieval:
 - Candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
 - Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
-- Evaluation results call for attention on embedding training strategies with different **granularity**. 
+- Evaluation results call for attention on embedding training strategies with different **granularity**.
+
+CapRetrievalEn is the direct translation of CapRetrieval to English. It is provided only for reference, since the original labels may not hold true due to different language traits.
 
 #### Format
 
@@ -20,14 +22,14 @@ A small amount of queries do not have any relevant captions; they are excluded i
 
 ### Evaluation Script
 
-[run.py](run.py) is a general script to evaluate embedding retrieval of various encoders.
+[run.py](run.py) is a general script to evaluate embedding retrieval of various encers.
 
 Results and embeddings will be saved under a new `evaluation` directory.
 
 
 ## Environment
 
-Install `pytorch` according to your local environment, then `pip install -r requirements.txt`
+Install `pytorch` according to your local environment, then `pip install -r reodquirements.txt`
 
 
 ## Usage
@@ -95,7 +97,7 @@ Saved report to evaluation/report.CapRetrieval.bge-base-zh-v1.5.top10.json
 
 ### Usage Examples
 
-Evaluate BM25 (for now only support language zh):
+Evaluate BM25:
 
 - `python run.py --dataset CapRetrieval --topk 10 --mode bm25 --lang zh`
 
