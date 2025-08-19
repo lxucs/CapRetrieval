@@ -2,16 +2,16 @@
 
 This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the paper [Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592).
 
-The dataset is also available on [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval).
+The dataset is also available at [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval); the English version is available at [CapRetrievalEn](https://huggingface.co/datasets/lxucs/CapRetrievalEn).
 
 ### Dataset
 
-CapRetrieval evaluates the fine-grained embedding matching, tailored towards a practical image search scenario in Chinese via dense passage retrieval:
+**CapRetrieval** evaluates the fine-grained embedding matching, tailored towards a practical image search scenario in Chinese via dense passage retrieval:
 - Candidate passages are image captions, and queries are short phrases of entities or events reflected in captions.
 - Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
 - Evaluation results call for attention on embedding training strategies with different **granularity**.
 
-CapRetrievalEn is the direct translation of CapRetrieval to English. It is provided only for reference, since the original labels may not hold true due to different language traits.
+CapRetrieval is prepared in Chinese. For **CapRetrievalEn**, queries and passages are translated automatically by GPT-4.1; all IDs and labels are kept the same as CapRetrieval. A few labels thus are not entirely accurate due to different language traits and expressions, but most labels should remain consistent.
 
 #### Format
 
@@ -29,7 +29,7 @@ Results and embeddings will be saved under a new `evaluation` directory.
 
 ## Environment
 
-Install `pytorch` according to your local environment, then `pip install -r reodquirements.txt`
+Install `pytorch` according to your local environment, then `pip install -r requirements.txt`
 
 
 ## Usage
@@ -100,14 +100,17 @@ Saved report to evaluation/report.CapRetrieval.bge-base-zh-v1.5.top10.json
 Evaluate BM25:
 
 - `python run.py --dataset CapRetrieval --topk 10 --mode bm25 --lang zh`
+- `python run.py --dataset CapRetrievalEn --topk 10 --mode bm25 --lang en`
 
 Evaluate BGE encoders using CLS pooling (default pooling):
 
 - `python run.py --dataset CapRetrieval --topk 10 --model BAAI/bge-base-zh-v1.5`
+- `python run.py --dataset CapRetrievalEn --topk 10 --model BAAI/bge-base-en-v1.5`
 
 Evaluate GTE multilingual model using CLS pooling:
 
 - `python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-multilingual-base`
+- `python run.py --dataset CapRetrievalEn --topk 10 --model Alibaba-NLP/gte-multilingual-base`
 
 Evaluate Conan-v1 encoder using default SentenceTransformers setup:
 
