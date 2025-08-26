@@ -1,6 +1,6 @@
 # CapRetrieval
 
-This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the paper [Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592).
+This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the EMNLP 2025 Finding paper [Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592).
 
 The dataset is also available at [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval); the English version is available at [CapRetrievalEn](https://huggingface.co/datasets/lxucs/CapRetrievalEn).
 
@@ -120,6 +120,10 @@ Evaluate E5 encoders using mean pooling, with suggested prompt templates:
 
 - `python run.py --dataset CapRetrieval --topk 10 --model intfloat/multilingual-e5-base --pooling mean --max_len 512 --query_template "query: {text}" --candidate_template "passage: {text}"`
 
+Evaluate E5-Mistral-7B using last token pooling, with according prompt templates:
+    
+- `python run.py --dataset CapRetrieval --topk 10 --model intfloat/e5-mistral-7b-instruct --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
+
 Evaluate GTE-Qwen encoders using last token pooling, with according prompt templates:
     
 - `python run.py --dataset CapRetrieval --topk 10 --model Alibaba-NLP/gte-Qwen2-7B-instruct --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
@@ -129,7 +133,7 @@ Evaluate Qwen3 embedding models using last token pooling, with according prompt 
 - `python run.py --dataset CapRetrieval --topk 10 --model Qwen/Qwen3-Embedding-8B --padding_side left --pooling last --query_template "Instruct: Given an image search query, retrieve relevant image captions\nQuery: {text}" --batch_size 8`
 
 
-## Evaluation Scores
+## Evaluation on CapRetrieval
 
 | Type     | Model                   | nDCG@10   |
 |----------|-------------------------|-----------|
@@ -152,6 +156,24 @@ Evaluate Qwen3 embedding models using last token pooling, with according prompt 
 
 
 The trained models (based on `bge-base-zh-v1.5`) are trained with queries by our data generation strategies described in the paper. The in-domain model can be downloaded from [Google Drive](https://drive.google.com/drive/folders/1l2pvELMQPKjhAasNGaY7d14jMK0iCRhj).
+
+
+## Evaluation on CapRetrievalEn
+
+| Type     | Model                   | nDCG@10   |
+|----------|-------------------------|-----------|
+| **BM25** | Basic BM25              | 69.56     |
+|          |                         |           |
+| **0.1B** | bge-base-en-v1.5        | 67.26     |
+|          | gte-multilingual-base   | 75.77     |
+|          | multilingual-e5-base    | 74.53     |
+| **0.3B** | bge-large-en-v1.5       | 61.94     |
+|          | multilingual-e5-large   | 77.40     |
+| **0.6B** | Qwen3-Embedding-0.6B    | 77.80     |
+| **>1B**  | gte-Qwen2-1.5B-instruct | 72.04     |
+|          | gte-Qwen2-7B-instruct   | **83.38** |
+|          | e5-mistral-7b-instruct  | 77.07     |
+|          | Qwen3-Embedding-8B      | 78.38     |
 
 
 ## License Agreement
