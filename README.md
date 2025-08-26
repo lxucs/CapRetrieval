@@ -1,6 +1,6 @@
 # CapRetrieval
 
-This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the EMNLP 2025 Finding paper [Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592).
+This repository contains the dataset and evaluation script for **CapRetrieval**, introduced in the EMNLP 2025 Finding paper: [[Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings](https://arxiv.org/abs/2506.08592)].
 
 The dataset is also available at [Huggingface](https://huggingface.co/datasets/lxucs/CapRetrieval); the English version is available at [CapRetrievalEn](https://huggingface.co/datasets/lxucs/CapRetrievalEn).
 
@@ -11,7 +11,7 @@ The dataset is also available at [Huggingface](https://huggingface.co/datasets/l
 - Overall, the dataset comprises seemingly simple queries and captions; however, text encoders are shown limitations resolving these cases.
 - Evaluation results call for attention on embedding training strategies with different **granularity**.
 
-CapRetrieval is prepared in Chinese. For **CapRetrievalEn**, queries and passages are translated automatically by GPT-4.1; all IDs and labels are kept the same as CapRetrieval. A few labels thus are not entirely accurate due to different language traits and expressions, but most labels should remain consistent.
+CapRetrieval is in Chinese. The according English version is provided as **CapRetrievalEn**; queries and passages are translated automatically by GPT-4.1; all IDs and labels are kept the same as CapRetrieval. A few labels thus are not entirely accurate due to different language traits and expressions, but most labels should remain consistent.
 
 #### Format
 
@@ -184,13 +184,13 @@ The dataset and trained models are licensed under Apache 2.0.
 ## Citation
 
 ```bibtex
-@misc{xu2025denseretrieversfailsimple,
-      title={Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings}, 
-      author={Liyan Xu and Zhenlin Su and Mo Yu and Jiangnan Li and Fandong Meng and Jie Zhou},
-      year={2025},
-      eprint={2506.08592},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2506.08592}, 
+@inproceedings{xu-etal-2025-dense,
+    title = "Dense Retrievers Can Fail on Simple Queries: Revealing The Granularity Dilemma of Embeddings",
+    author = "Xu, Liyan and Su, Zhenlin and Yu, Mo and Li, Jiangnan and Meng, Fandong and Zhou, Jie",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics"
 }
 ```
